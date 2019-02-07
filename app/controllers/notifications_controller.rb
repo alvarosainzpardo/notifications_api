@@ -58,7 +58,9 @@ class NotificationsController < ApplicationController
           @notification.time_instant = attribute['value']
         else
           str_index = "%02d" % index
-          @notification['attribute_' + str_index] = attribute['value']
+          @notification["attribute_#{str_index}"] = "#{attribute['name']}: #{attribute['value']}"
+          # @notification['attribute_' + str_index] = attribute['name'] + ': ' + attribute['value'].to_s
+          puts "attribute_#{str_index}: \'#{attribute['name']}: #{attribute['value']}\'"
         end
 
         break if index == 40
