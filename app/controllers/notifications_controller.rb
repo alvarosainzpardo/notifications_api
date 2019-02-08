@@ -1,6 +1,9 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :update, :destroy]
 
+  # Number of data instance variables in the model
+  NUM_DATA_FIELDS = 40
+
   # GET /notifications
   def index
     @notifications = Notification.all.order(:time_instant).reverse_order
@@ -57,13 +60,14 @@ class NotificationsController < ApplicationController
         if attribute['name'] == 'TimeInstant'
           @notification.time_instant = attribute['value']
         else
-          str_index = "%02d" % index
-          @notification["attribute_#{str_index}"] = "#{attribute['name']}: #{attribute['value']}"
-          # @notification['attribute_' + str_index] = attribute['name'] + ': ' + attribute['value'].to_s
-          puts "attribute_#{str_index}: \'#{attribute['name']}: #{attribute['value']}\'"
+          # str_index = "%02d" % index
+          # @notification["attribute_#{str_index}"] = "#{attribute['name']}: #{attribute['value']}"
+          @notification["attribute_%02d" % index] = "#{attribute['name']}: #{attribute['value']}"
         end
 
-        break if index == 40
+        # Exit if there are more attributes in the payload than the number
+        # of data instance variables in the model
+        break if index == NUM_DATA_FIELDS - 1
       end
     end
 
