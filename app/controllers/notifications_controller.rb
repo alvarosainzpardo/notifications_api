@@ -1,9 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :update, :destroy]
 
-  # Number of data instance variables in the model
-  NUM_DATA_FIELDS = 40
-
   # GET /notifications
   def index
     @notifications = Notification.all.order(:time_instant).reverse_order
@@ -67,7 +64,7 @@ class NotificationsController < ApplicationController
 
         # Exit if there are more attributes in the payload than the number
         # of data instance variables in the model
-        break if index == NUM_DATA_FIELDS - 1
+        break if index == @notification.data_fields_number - 1
       end
     end
 
