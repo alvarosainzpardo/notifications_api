@@ -44,7 +44,7 @@ class NotificationsController < ApplicationController
 
     @notification.fiware_service = request.headers['Fiware-Service']
     @notification.fiware_servicepath = request.headers['Fiware-ServicePath']
-    @notification.payload = request.body.read[0, 255]
+    @notification.payload = request.body.read
     json_body = JSON.parse(request.body.read)
 
     if !json_body.empty?
