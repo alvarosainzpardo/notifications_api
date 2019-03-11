@@ -57,9 +57,9 @@ class NotificationsController < ApplicationController
         if attribute['name'] == 'TimeInstant'
           @notification.time_instant = attribute['value']
         else
-          # str_index = "%02d" % index
-          # @notification["attribute_#{str_index}"] = "#{attribute['name']}: #{attribute['value']}"
-          @notification["attribute_%02d" % index] = "#{attribute['name']}: #{attribute['value']}"
+          # truncate to first 255 chars (limit of ActiveRecord string type length)
+          # for attribute values very long
+          @notification["attribute_%02d" % index] = "#{attribute['name']}: #{attribute['value']}".truncate(255)
         end
 
         # Exit if there are more attributes in the payload than the number
